@@ -2,6 +2,7 @@
 library(devtools)
 library(RISmed)
 library(tidyverse)
+library(dictionaRy)
 
 install_github("BuerkiLabTeam/G2PMineR")
 library(G2PMineR)
@@ -29,4 +30,4 @@ if(!is.null(missing)) {
   id <- id[-missing]
 }
 
-abstracts <- HTMLElementRemoveR(abstracts) %>% AlphaNumericalizeR() #Removes HTML elements and non-ANSI characters from abstracts
+abstracts <- HTMLElementRemoveR(abstracts) #Removes HTML elements from abstracts
