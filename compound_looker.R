@@ -42,21 +42,43 @@ compound_looker <- function(abs_param, id_param) {
   
   for(i in 1:length(split_abs)) {
     for(j in 1:length(split_abs[[i]])) {
-      string <- split_abs[[i]][j]
-      
-      if(!grepl("[A-Za-z]", string)) {
+      if(!grepl("[A-Za-z]", split_abs[[i]][j])) {
         no_letters <- append(no_letters, j)
       }
-      
-      if(string == "acid") {
+    }
+    
+    if(!is.null(no_letters)) {
+      split_abs[[i]] <- split_abs[[i]][-no_letters]
+    }
+    
+    for(j in 1:length(split_abs[[i]])) {
+      if(split_abs[[i]][j] == "acid") {
         two_word_end <- append(two_word_end, j)
       }
+    }
+    
+    if(!is.null(two_word_end)) {
+      two_word_end <- sort(two_word_end, decreasing = TRUE)
       
-      if(string %in% element_names) {
+      for(k in 1:length(two_word_end)) {
+        split_abs[[i]][two_word_end[[k]] - 1] <- paste(split_abs[[i]][two_word_end[[k]] - 1], split_abs[[i]][two_word_end[[k]]])
+        split_abs[[i]][-two_word_end[[k]]]
+      }
+    }
+    
+    for(j in 1:length(split_abs[[i]])) {
+      if(split_abs[[i]][j] %in% element_names) {
         two_word_start <- append(two_word_start, j)
       }
+    }
+    
+    if(!is.null(two_word_start)) {
+      two_word_start <- sort(two_word_start, decreasing = TRUE)
       
-      
+      for(k in 1:length(two_word_start)) {
+        split_abs[[i]][two_word_start[[k]]] <- paste(split_abs[[i]][two_word_end[[k]]], split_abs[[i]][two_word_end[[k]] + 1])
+        split_abs[[i]][-two_word_end[[k]] + 1]
+      }
     }
   }
 }
