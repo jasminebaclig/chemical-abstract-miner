@@ -40,7 +40,7 @@ compound_looker <- function(abs_param, id_param) {
   two_word_end <- c()
   two_word_start <- c()
   
-  for(i in 1:length(split_abs)) {
+  for(i in 1) {#:length(split_abs)) {
     for(j in 1:length(split_abs[[i]])) {
       if(!grepl("[A-Za-z]", split_abs[[i]][j])) {
         no_letters <- append(no_letters, j)
@@ -76,8 +76,8 @@ compound_looker <- function(abs_param, id_param) {
       two_word_start <- sort(two_word_start, decreasing = TRUE)
       
       for(k in 1:length(two_word_start)) {
-        split_abs[[i]][two_word_start[[k]]] <- paste(split_abs[[i]][two_word_end[[k]]], split_abs[[i]][two_word_end[[k]] + 1])
-        split_abs[[i]][-two_word_end[[k]] + 1]
+        split_abs[[i]][two_word_start[[k]]] <- paste(split_abs[[i]][two_word_start[[k]]], split_abs[[i]][two_word_start[[k]] + 1])
+        split_abs[[i]][-(two_word_start[[k]] + 1)]
       }
     }
   }
