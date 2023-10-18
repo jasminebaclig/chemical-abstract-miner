@@ -3,20 +3,33 @@ import java.util.Scanner;
 
 public class RunRESTClientGet {
     public static void main(String[] args) {
+        Scanner s = null;
+        String[] param = {"Chemical", "PUBIDs", "PubTator"};
+        String[] currLine;
+
         try {
+            File inputFile = new File("pmid.txt");
+            File pmidList = new File("pmidList.txt");
             File outputFile = new File("output.txt");
             File chemicalFile = new File("chemical.txt");
+            pmidList.createNewFile();
             outputFile.createNewFile();
             chemicalFile.createNewFile();
 
             PrintStream ps = new PrintStream(outputFile);
             System.setOut(ps);
+
+            s = new Scanner(inputFile);
+            
+            BufferedWriter bw = new BufferedWriter(new FileWriter(pmidList));
         } catch(IOException e) {
             System.exit(1);
         }
 
-        String[] param = {"Chemical", "pub_id.csv", "PubTator"};
-        RESTClientGet.main(param);
+        while(s.hasNextLine()) {
+            currLine = s.nextLine().split("\t");
+            RESTClientGet.main(param);
+        }
     }
 
     private static void processOutputFile(File outputFile, File chemicalFile) {
