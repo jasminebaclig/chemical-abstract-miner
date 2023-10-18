@@ -55,4 +55,5 @@ for(i in 1:length(species_list)) {
 
 
 
-#
+#Write output to .txt file
+write.table(output, file = "pmid.txt")
