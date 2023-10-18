@@ -44,5 +44,15 @@ for(i in 1:length(species_list)) {
   
   
   #Concatenates PMID
-  pmid <- paste(id, collapse = "\t")
+  pmid_list <- paste(id, collapse = "\t")
+  
+  
+  
+  #Adds result to output data frame
+  new_row <- c(species_list[[1]][i], pmid_list)
+  output <- rbind(output, new_row)
 }
+
+
+
+#
