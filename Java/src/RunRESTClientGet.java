@@ -6,8 +6,8 @@ public class RunRESTClientGet {
     public static void main(String[] args) {
         File inputFile = new File("pmid.txt"); //Input file with list of pmid for each species
         File pmidList = new File("pmidList.txt"); //Pmid list for one specie at a time
-        File outputFile = new File("output.tsv"); //Output of RESTClientGet.java
-        File chemicalFile = new File("chemical.txt"); //Output file with chemical names for each species
+        File outputFile = new File("output.txt"); //Output of RESTClientGet.java
+        File chemicalFile = new File("chemical.tsv"); //Output file with chemical names for each species
 
         String[] currLine;
         String[] param = {"Chemical", "pmidList.txt", "PubTator"};

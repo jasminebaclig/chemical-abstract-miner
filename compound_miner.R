@@ -37,4 +37,4 @@ for(i in 1:length(species_list[[1]])) {
 
 
 #Write output to .txt file
-write.table(output, file = "pmid.txt")
+write.table(output, file = "pmid.txt", append = FALSE, quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE)
