@@ -23,10 +23,11 @@ public class RunRESTClientGet {
 
             while(s.hasNextLine()) {
                 currLine = s.nextLine().split("\t"); //String array with species name followed by pmid
-                BufferedWriter bw = new BufferedWriter(new FileWriter(pmidList, false));
+                FileWriter fw = new FileWriter(pmidList, false);
 
                 for(int i = 1; i < currLine.length; i++) {
-                    bw.write(currLine[i] + "\n");
+                    fw.write(currLine[i] + "\n");
+                    fw.flush();
                 }
 
                 outputFile.createNewFile();
@@ -38,7 +39,7 @@ public class RunRESTClientGet {
 
                 System.setOut(stdOut);
                 outputFile.delete();
-                bw.close();
+                fw.close();
 
                 count++;
                 System.out.println(count + " species done.");
@@ -87,7 +88,7 @@ public class RunRESTClientGet {
         outputLine = outputLine.substring(0, outputLine.length() - 2);
 
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile, true));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(chemicalFile, true));
             bw.write(outputLine + "\n");
             bw.close();
         } catch(IOException e) {
