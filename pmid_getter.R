@@ -1,3 +1,8 @@
+#Gets PMIDs of articles related to species of interest
+#Author: @jasminebaclig
+
+
+
 #Installs and loads necessary packages
 library(devtools)
 library(RISmed)

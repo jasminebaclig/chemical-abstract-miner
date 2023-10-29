@@ -74,6 +74,7 @@ public class ChemicalMiner {
             }
 
             s.close();
+            pmidList.delete();
         } catch(IOException e) {
             System.exit(1);
         }
