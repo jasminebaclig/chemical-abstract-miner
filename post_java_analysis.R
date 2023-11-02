@@ -15,11 +15,11 @@ amino_acids <- select(amino_acids, "full name", "three letter code", "single let
 results_aa <- filter(results, chemical %in% amino_acids$full.name | chemical %in% amino_acids$three.letter.code | chemical %in% amino_acids$single.letter.code) #360
 results <- filter(results, !(chemical %in% amino_acids$full.name) & !(chemical %in% amino_acids$three.letter.code) & !(chemical %in% amino_acids$single.letter.code)) #34177
 
-cid_table <- data.frame(chemical = character(), cid = character(), count = numeric())
+cid_table <- data.frame(chemical = c("name"), cid = c("code"), count = c(1))
 for(i in 1:length(results)) {
   search_string <- paste("\"", results$chemical[i], "\"", sep = "")
   Sys.sleep(0.05)
   query_result <- EUtilsSummary(search_string, type = "esearch", db = "pccompound", retmax = 10000)
-  new_row <- c(results$chemical[i], attr(query_result, "PMID"), attr(query_result, "count"))
+  new_row <- c(results$chemical[i], attr(query_result, "PMID") %>% paste(collapse = " "), attr(query_result, "count"))
   cid_table <- rbind(cid_table, new_row)
 }
