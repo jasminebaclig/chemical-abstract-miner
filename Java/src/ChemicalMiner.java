@@ -159,7 +159,7 @@ public class ChemicalMiner {
                     chemicalArray.add(chemicalName);
                     frequencyArray.add(Integer.valueOf(1)); //Sets frequency to 1
                     pmidArray.add(new LinkedList<>());
-                    pmidArray.getLast().add(pmid); //Adds PMID of article to corresponding list
+                    pmidArray.get(pmidArray.size() - 1).add(pmid); //Adds PMID of article to corresponding list
                 } else {
                     index = chemicalArray.indexOf(chemicalName);
                     frequencyArray.set(index, Integer.valueOf(frequencyArray.get(index).intValue() + 1)); //Increments frequency if chemical name is found again
