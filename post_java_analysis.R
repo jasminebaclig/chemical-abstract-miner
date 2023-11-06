@@ -15,6 +15,8 @@ amino_acids <- select(amino_acids, "full name", "three letter code", "single let
 results_aa <- filter(results, chemical %in% amino_acids$full.name | chemical %in% amino_acids$three.letter.code | chemical %in% amino_acids$single.letter.code) #360
 results <- filter(results, !(chemical %in% amino_acids$full.name) & !(chemical %in% amino_acids$three.letter.code) & !(chemical %in% amino_acids$single.letter.code)) #34177
 
+results_and <- filter(results, grepl(" and ", results$chemical) == TRUE)
+
 cid_table <- data.frame(chemical = c("name"), cid = c("code"), count = c(1))
 for(i in 1:length(results[[1]])) {
   cid_compound <- get_cid(results$chemical[i], domain = "compound")
