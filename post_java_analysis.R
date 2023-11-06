@@ -15,13 +15,20 @@ amino_acids <- select(amino_acids, "full name", "three letter code", "single let
 results_aa <- filter(results, chemical %in% amino_acids$full.name | chemical %in% amino_acids$three.letter.code | chemical %in% amino_acids$single.letter.code) #360
 results <- filter(results, !(chemical %in% amino_acids$full.name) & !(chemical %in% amino_acids$three.letter.code) & !(chemical %in% amino_acids$single.letter.code)) #34177
 
-results_and <- filter(results, grepl(" and ", results$chemical) == TRUE)
+results_and <- filter(results, grepl(" and ", chemical)) #179
+results <- filter(results, !grepl(" and ", chemical)) #33998
 
-cid_table <- data.frame(chemical = c("name"), cid = c("code"), count = c(1))
-for(i in 1:length(results[[1]])) {
+cid_table <- data.frame(chemical = c("name"), cid = c("code"), cid_count = c(1))
+for(i in 1:50) { #length(results[[1]])
   cid_compound <- get_cid(results$chemical[i], domain = "compound")
   cid_substance <- get_cid(results$chemical[i], domain = "substance")
-  cid <- bind_rows(cid_compound, cid_substance) %>% distinct()
+  
+  if(length(cid_compound[[1]]) == 1 & is.na(cid_compound$cid[1])) {
+    cid <- cid_substance
+  } else {
+    cid <- bind_rows(cid_compound, cid_substance) %>% distinct()
+  }
+  
   
   if(length(cid[[1]]) == 1 & is.na(cid$cid[1])) {
     new_row <- c(results$chemical[i], NA, 0)
@@ -30,5 +37,16 @@ for(i in 1:length(results[[1]])) {
   }
   
   cid_table <- rbind(cid_table, new_row)
+  print(paste("Chemical processed:", i))
 }
 cid_table = cid_table[-1, ]
+results = results[1:50, ]
+results <- left_join(results, cid_table, by = join_by(chemical == chemical))
+
+results_no_cid <- filter(results, cid_count == 0)
+results <- filter(results, cid_count != 0)
+
+for(i in 1:length(results[[1]])) {
+  cid_vector <- strsplit(results$cid[i], " ")
+  
+}
