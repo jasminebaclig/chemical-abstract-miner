@@ -1,5 +1,5 @@
 library(tidyverse)
-library(RISmed)
+library(webchem)
 
 results <- read_tsv("caribou_chemicals.tsv", col_names = TRUE) #36207
 
@@ -16,10 +16,17 @@ results_aa <- filter(results, chemical %in% amino_acids$full.name | chemical %in
 results <- filter(results, !(chemical %in% amino_acids$full.name) & !(chemical %in% amino_acids$three.letter.code) & !(chemical %in% amino_acids$single.letter.code)) #34177
 
 cid_table <- data.frame(chemical = c("name"), cid = c("code"), count = c(1))
-for(i in 1:length(results)) {
-  search_string <- paste("\"", results$chemical[i], "\"", sep = "")
-  Sys.sleep(0.05)
-  query_result <- EUtilsSummary(search_string, type = "esearch", db = "pccompound", retmax = 10000)
-  new_row <- c(results$chemical[i], attr(query_result, "PMID") %>% paste(collapse = " "), attr(query_result, "count"))
+for(i in 1:length(results[[1]])) {
+  cid_compound <- get_cid(results$chemical[i], domain = "compound")
+  cid_substance <- get_cid(results$chemical[i], domain = "substance")
+  cid <- bind_rows(cid_compound, cid_substance) %>% distinct()
+  
+  if(length(cid[[1]]) == 1 & is.na(cid$cid[1])) {
+    new_row <- c(results$chemical[i], NA, 0)
+  } else {
+    new_row <- c(results$chemical[i], cid$cid %>% paste(collapse = " "), length(cid$cid))
+  }
+  
   cid_table <- rbind(cid_table, new_row)
 }
+cid_table = cid_table[-1, ]
