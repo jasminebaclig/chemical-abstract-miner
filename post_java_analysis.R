@@ -46,7 +46,14 @@ results <- left_join(results, cid_table, by = join_by(chemical == chemical))
 results_no_cid <- filter(results, cid_count == 0)
 results <- filter(results, cid_count != 0)
 
-for(i in 1:length(results[[1]])) {
-  cid_vector <- strsplit(results$cid[i], " ")
+get_names <- function(cid_string) {
+  cid_vector <- strsplit(cid_string, " ")
+  name_vector <- c()
   
+  for(j in 1:length(cid_vector[[1]])) {
+    name_vector <- append(name_vector, pc_synonyms(cid_vector[[1]][i], from = "cid"))[[1]][1]
+  }
+  
+  name_string <- paste(name_vector, collapse = " ")
 }
+results <- transform(results, pc_name = sapply(cid, get_names))
