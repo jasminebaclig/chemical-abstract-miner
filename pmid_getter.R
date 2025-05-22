@@ -11,7 +11,7 @@ library(tidyverse)
 
 
 #Imports plant species list for given animal
-species_list <- read_csv("caribou_species_list.csv") %>%
+species_list <- read_csv("./input_files/caribou_species_list.csv") %>%
                 select("Species name")
 
 
@@ -42,4 +42,4 @@ for(i in 1:length(species_list[[1]])) {
 
 
 #Write output to .txt file
-write.table(output, file = "pmid.txt", append = FALSE, quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE)
+write.table(output, file = "./output_files/pmid.txt", append = FALSE, quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE)
