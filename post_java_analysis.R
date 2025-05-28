@@ -64,7 +64,7 @@ write.csv(results_no_cid, "./output_files/caribou_no_cid_1_50.csv") ##CHANGE BOU
 
 # Separates chemicals with matching results in PubChem
 results <- filter(results, cid_count != 0)
-write.csv(results, "caribou_pre_iupac_1_50.csv") ##CHANGE BOUNDS##
+write.csv(results, "./output_files/caribou_pre_iupac_1_50.csv") ##CHANGE BOUNDS##
 # Gets molecular formula and IUPAC name for each entry
 iupac_table <- data.frame(species = c("species"), chemical = c("chemical"), cid = c("cid"), formula = c("formula"), iupac = c("iupac"))
 for(i in 1:length(results[[1]])) {
